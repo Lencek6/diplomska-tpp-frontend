@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <notifications group="main"></notifications>
     <router-view></router-view>
   </div>
 </template>
@@ -18,7 +19,7 @@ export default {
 
 :root {
   --nav-txt: black;
-  --nav-txt-hvr: #e57a7a;
+  --nav-txt-hvr: rgba(13, 110, 253, 0.59);
   --nav-bg: #d4d3d3;
 }
 

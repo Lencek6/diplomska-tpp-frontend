@@ -1,16 +1,16 @@
 <template>
   <div id="header">
-    <b-icon @click="logOut" class="icon-user" variant="danger" icon="x-square"></b-icon>
+    <img class="bankart-logo" :src="image"/>
   </div>
 </template>
 
 <script>
+
 export default {
   name: "Header",
-  methods: {
-    logOut() {
-      localStorage.clear();
-      this.$router.push('/login');
+  data() {
+    return{
+      image: require('/public/bankart_logotip_color.svg')
     }
   }
 }
@@ -28,13 +28,9 @@ export default {
   width: 100%
 }
 
-.icon-user {
+.bankart-logo {
+  height: 20px;
   margin-left: auto;
-}
-
-.icon-user:hover {
-  -webkit-transform: scale(1.3);
-  cursor: pointer;
 }
 
 /* Header under 500px */

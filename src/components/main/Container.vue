@@ -22,12 +22,17 @@ export default {
 
 <style scoped>
 
+  >>> .card-header {
+    background-color: var(--nav-txt-hvr);
+  }
+
 #main {
   display: flex;
   margin-left: 200px;
   padding-top: 50px;
   padding-left: 1rem;
   padding-right: 1rem;
+  padding-bottom: 1rem;
 }
 
 /* Main view under 500px */
@@ -38,6 +43,7 @@ export default {
     display: flex;
     margin-left: 0;
     padding-top: 50px;
+    padding-bottom: calc(50px + 1rem);
     padding-left: 1rem;
     padding-right: 1rem;
   }
