@@ -8,8 +8,9 @@
                 Verzija API-ja <br>
                 <b-select class="mb-2" :options="apiOptions" v-model="apiVersion"></b-select><br>
                 Simulator <br>
-                <b-select :options="simOptions" v-model="simulator"></b-select>
-
+                <b-select class="mb-2" :options="simOptions" v-model="simulator"></b-select><br>
+                Okolje <br>
+                <b-select :options="envOptions" v-model="environment"></b-select>
             </div>
         </div>
     </div>
@@ -20,11 +21,20 @@
         name: "Settings",
         data() {
             return {
+                envOptions: ['test', 'prod'],
                 apiOptions: ['v1', 'v2'],
-                simOptions: ['sb', 'skb', 'nlb', 'dh', 'nkbm']
+                simOptions: ['sb', 'hub']
             }
         },
         computed: {
+            environment: {
+                get() {
+                    return this.$store.state.settings.environment;
+                },
+                set(value){
+                    this.$store.commit('CHANGE_ENVIRONMENT', value);
+                }
+            },
             apiVersion: {
                 get() {
                     return this.$store.state.settings.apiV;

@@ -12,7 +12,7 @@ export default  {
         if(!error) return
         if(typeof (error) !== 'string') return
         if(error.toLowerCase().includes('token') || error.toLowerCase().includes('right permission')) return this.logout();
-        notification.show('Odgovor strežnika', error, 'danger');
+        notification.show(error,'error', 'Obvestilo');
     }
 
 }

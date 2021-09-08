@@ -4,21 +4,21 @@ import store from "../store";
 
 export default {
 
-    // This is a custom header that specify which simulator is targeted on back-end
+    // This are custom headers that specify which simulator and api version is targeted on back-end API calls on apiConnect
     customHeaders() {
-        let header = {
-            Simulator: store.state.settings.simulator,
-            ApiVersion: store.state.settings.apiV
+        return {
+            'tpp-simulator': store.state.settings.simulator,
+            'tpp-environment': store.state.settings.environment,
+            'tpp-api-version': store.state.settings.apiV
         };
-        return header;
     },
 
-    // Auth
+    // Get authorization code
     async getCode() {
         const response = await axios.get('/code', {baseURL: `${process.env.VUE_APP_TPP}/tpp/ais`, headers: this.customHeaders()});
-        if (response.data.success === false) return utilities.handleError(response.data.message);
+        if (response.data.success === false) utilities.handleError(response.data.message);
 
-        return response.data
+        return response.data;
     },
 
     // SCA ping
@@ -30,7 +30,7 @@ export default {
     // Swap code for token
     async codeForTokenSwap(authFlowId) {
         const response = await axios.get(`/code/swap/${authFlowId}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/ais`, headers: this.customHeaders()});
-        if (response.data.success === false) return utilities.handleError(response.data.message);
+        if (response.data.success === false) utilities.handleError(response.data.message);
         return response.data
     },
 
@@ -51,7 +51,7 @@ export default {
     // Get consents
     async getConsents() {
         const response = await axios.get(`/consent/get`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/ais`, headers: this.customHeaders()});
-        if (response.data.success === false) return utilities.handleError(response.data.message);
+        if (response.data.success === false) utilities.handleError(response.data.message);
         return response.data
     },
 
@@ -106,28 +106,28 @@ export default {
     // PIS - Swap code for token
     async pisExchangeCodeForToken(flowId) {
         const response = await axios.get(`/exchange/${flowId}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/pis`, headers: this.customHeaders()});
-        if (response.data.success === false) return utilities.handleError(response.data.message);
+        if (response.data.success === false) utilities.handleError(response.data.message);
         return response.data
     },
 
     // PIS - Get payments
     async getPayments(iban) {
         const response = await axios.get(`/payments/${iban}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/pis`, headers: this.customHeaders()});
-        if (response.data.success === false) return utilities.handleError(response.data.message);
+        if (response.data.success === false) utilities.handleError(response.data.message);
         return response.data
     },
 
     // PIS - Payment actions
     async paymentActions(paymentId, action) {
         const response = await axios.get(`/payment/${paymentId}/${action}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/pis`, headers: this.customHeaders()});
-        if (response.data.success === false) return utilities.handleError(response.data.message);
+        if (response.data.success === false) utilities.handleError(response.data.message);
         return response.data
     },
 
     // PIS - Delete payment
     async deletePayment(paymentId) {
         const response = await axios.delete(`/payment/${paymentId}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/pis`, headers: this.customHeaders()});
-        if (response.data.success === false) return utilities.handleError(response.data.message);
+        if (response.data.success === false) utilities.handleError(response.data.message);
         return response.data
     },
 

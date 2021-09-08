@@ -1,9 +1,13 @@
 const settings = {
     state: {
-        simulator: 'sb',
-        apiV: 'v2'
+        simulator: 'hub',
+        apiV: 'v1',
+        environment: 'test'
     },
     mutations: {
+        CHANGE_ENVIRONMENT(state, environment) {
+            state.environment = environment;
+        },
         CHANGE_SIMULATOR(state, simulator) {
             state.simulator = simulator;
         },
