@@ -100,6 +100,7 @@
                 id="modal-display-data"
                 ref="displayDataModal"
                 centered
+                hide-header-close
                 no-stacking
                 hide-footer>
           <template v-slot:modal-title>

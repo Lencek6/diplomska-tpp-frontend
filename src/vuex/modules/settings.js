@@ -1,7 +1,7 @@
 const settings = {
     state: {
         simulator: 'hub',
-        apiV: 'v1',
+        apiVersion: 'v1',
         environment: 'test'
     },
     mutations: {
@@ -12,7 +12,7 @@ const settings = {
             state.simulator = simulator;
         },
         CHANGE_API_V(state, apiV) {
-            state.apiV = apiV;
+            state.apiVersion = apiV;
         }
     },
     actions: {},

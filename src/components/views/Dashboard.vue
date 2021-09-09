@@ -1,28 +1,6 @@
 <template>
   <div id="dashboard" class="w-100">
     <b-row>
-      <b-col class="payments-per-day-column">
-        <div class="card">
-          <div class="card-header" style="text-align: left">
-            Število izvedenih plačil v zadnjih sedmih dneh
-          </div>
-          <div class="card-body">
-            <payments-per-day></payments-per-day>
-          </div>
-        </div>
-      </b-col>
-    </b-row>
-    <b-row class="mt-4">
-      <b-col md="12" lg="6">
-        <div class="card">
-          <div class="card-header" style="text-align: left">
-            Maksimalni znesek plačila na dan v valuti €
-          </div>
-          <div class="card-body">
-            <payment-values-per-day></payment-values-per-day>
-          </div>
-        </div>
-      </b-col>
       <b-col md="12" lg="6">
         <div class="card">
           <div class="card-header" style="text-align: left">
@@ -36,7 +14,16 @@
         </div>
       </b-col>
     </b-row>
-
+    <b-row class="mt-4">
+      <b-col class="payments-per-day-column">
+            <payments-per-day></payments-per-day>
+      </b-col>
+    </b-row>
+    <b-row class="mt-4">
+      <b-col>
+            <payment-values-per-day></payment-values-per-day>
+      </b-col>
+    </b-row>
   </div>
 </template>
 

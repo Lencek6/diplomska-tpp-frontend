@@ -9,6 +9,11 @@
                 <b-row class="card-body-row-1">
                     <!-- Action column -->
                     <b-col class="card-body-row-1-col-actions" sm="12" md="6">
+                        <!-- IBAN is required if simulation is for HUB -->
+                        <div class="iban mb-3" v-if="$store.state.settings.simulator === 'hub'">
+                            <label for="iban-input"><b>IBAN</b></label>
+                            <b-input id="iban-input" v-model="iban"></b-input>
+                        </div>
                         <!-- Get consent -->
                         <div class="border-bottom">
                             <b-button variant="custom-buttons" class="mb-2" @click="getConsent">Kreiraj novo soglasje</b-button>
@@ -110,6 +115,7 @@
         components: {Logger, Multiselect, DatePick},
         data() {
             return {
+                iban: null,
                 dateFrom: "",
                 dateTo: "",
                 format: calendar.format(),
@@ -300,13 +306,16 @@
             // Get consent from user
             async getConsent() {
 
+                if(this.$store.state.settings.simulator !== 'hub') this.iban = null;
+                if(this.$store.state.settings.simulator === 'hub' && (this.iban === null || this.iban === '')) return notification.show('Podatek IBAN je za pridobitev soglasja obvezen', 'warn', 'Obvestilo');
+
                 const timer = ms => new Promise(res => setTimeout(res, ms));
 
                 if (!this.actionInProgress) {
                     this.actionInProgress = true;
                     this.logs.push({message: 'Pridobivanje avtorizacijske kode', status: 'loading'});
                     // Step 1: Get authorization code
-                    let result = await psd2_api.getCode();
+                    let result = await psd2_api.getCode(this.iban);
                     if (result) {
                         window.open(result.url); // SCA
                         let i = 1;

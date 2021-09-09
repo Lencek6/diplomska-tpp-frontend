@@ -2,133 +2,225 @@ import axios from 'axios'
 import utilities from "../../utils/utilities";
 import store from "../store";
 
+const failed = (e) => {
+    utilities.handleError(e.response.data.message);
+    return {success: false};
+}
+
 export default {
 
-    // This are custom headers that specify which simulator and api version is targeted on back-end API calls on apiConnect
-    customHeaders() {
+    customConfig(service) {
         return {
-            'tpp-simulator': store.state.settings.simulator,
-            'tpp-environment': store.state.settings.environment,
-            'tpp-api-version': store.state.settings.apiV
+            headers: {
+                'tpp-simulator': store.state.settings.simulator,
+                'tpp-environment': store.state.settings.environment,
+                'tpp-api-version': store.state.settings.apiVersion,
+                'Authorization': localStorage.getItem('JWT')
+            },
+            baseURL: (service === 'ais') ? `${process.env.VUE_APP_TPP}/tpp/ais` : (service === 'pis') ? `${process.env.VUE_APP_TPP}/tpp/pis` : `${process.env.VUE_APP_TPP}/tpp/auth`,
         };
     },
 
-    // Get authorization code
-    async getCode() {
-        const response = await axios.get('/code', {baseURL: `${process.env.VUE_APP_TPP}/tpp/ais`, headers: this.customHeaders()});
-        if (response.data.success === false) utilities.handleError(response.data.message);
-
-        return response.data;
+    // Auth
+    async getCode(iban) {
+        try {
+            const response = await axios.get(`/code/${iban}`, this.customConfig('ais'));
+            return response.data;
+        } catch (e) {
+            failed(e);
+        }
     },
 
     // SCA ping
     async scaPing(flowId, action) {
-        const response = await axios.get(`/sca/ping/${action}/${flowId}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/auth`, headers: this.customHeaders()});
-        return response.data
+        try {
+            const response = await axios.get(`/sca/ping/${action}/${flowId}`, this.customConfig('auth'));
+            return response.data;
+        } catch (e) {
+            return failed(e);
+        }
     },
 
     // Swap code for token
     async codeForTokenSwap(authFlowId) {
-        const response = await axios.get(`/code/swap/${authFlowId}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/ais`, headers: this.customHeaders()});
-        if (response.data.success === false) utilities.handleError(response.data.message);
-        return response.data
+        try {
+            const response = await axios.post(`/code/swap`, {authFlowId}, this.customConfig('ais'));
+            return response.data;
+        } catch (e) {
+            return failed(e);
+        }
     },
 
     // Create consent
     async createConsent(authFlowId) {
-        const response = await axios.get(`/consent/create/${authFlowId}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/ais`, headers: this.customHeaders()});
-        if (response.data.success === false) utilities.handleError(response.data.message);
-        return response.data
+        try {
+            const response = await axios.post(`/consent`, {authFlowId}, this.customConfig('ais'));
+            return response.data;
+        } catch (e) {
+            return failed(e);
+        }
     },
 
     // Get consent status
     async consentStatus(authFlowId) {
-        const response = await axios.get(`/consent/status/${authFlowId}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/ais`, headers: this.customHeaders()});
-        if (response.data.success === false) utilities.handleError(response.data.message);
-        return response.data
+        try {
+            const response = await axios.get(`/consent/status/${authFlowId}`, this.customConfig('ais'));
+            return response.data;
+        } catch (e) {
+            return failed(e);
+        }
     },
 
     // Get consents
     async getConsents() {
-        const response = await axios.get(`/consent/get`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/ais`, headers: this.customHeaders()});
-        if (response.data.success === false) utilities.handleError(response.data.message);
-        return response.data
+        try {
+            const response = await axios.get(`/consent`, this.customConfig('ais'));
+            return response.data;
+        } catch (e) {
+            utilities.handleError(e);
+            return [];
+        }
     },
 
     // Delete consent
     async deleteConsent(authFlowId) {
-        const response = await axios.delete(`/consent/${authFlowId}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/ais`, headers: this.customHeaders()});
-        if (response.data.success === false) utilities.handleError(response.data.message);
-        return response.data
+        try {
+            const response = await axios.delete(`/consent/${authFlowId}`, this.customConfig('ais'));
+            return response.data;
+        } catch (e) {
+            return failed(e);
+        }
     },
 
     // Account list
     async accountList(authFlowId) {
-        const response = await axios.get(`/account/list/${authFlowId}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/ais`, headers: this.customHeaders()});
-        if (response.data.success === false) utilities.handleError(response.data.message);
-        return response.data
+        try {
+            const response = await axios.get(`/account/list/${authFlowId}`, this.customConfig('ais'));
+            return response.data;
+        } catch (e) {
+            return failed(e);
+        }
     },
 
     // Account information
     async accountInformation(authFlowId, accountId) {
-        const response = await axios.get(`/account/information/${authFlowId}/${accountId}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/ais`, headers: this.customHeaders()});
-        if (response.data.success === false) utilities.handleError(response.data.message);
-        return response.data
+        try {
+            const response = await axios.get(`/account/information/${authFlowId}/${accountId}`, this.customConfig('ais'));
+            return response.data;
+        } catch (e) {
+            return failed(e);
+        }
     },
 
     // Account balances
     async accountBalances(authFlowId, accountId) {
-        const response = await axios.get(`/account/balances/${authFlowId}/${accountId}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/ais`, headers: this.customHeaders()});
-        if (response.data.success === false) utilities.handleError(response.data.message);
-        return response.data
+        try {
+            const response = await axios.get(`/account/balances/${authFlowId}/${accountId}`, this.customConfig('ais'));
+            return response.data;
+        } catch (e) {
+            return failed(e);
+        }
     },
 
     // Transaction list
     async transactionList(authFlowId, accountId, from, to, bookSts) {
-        const response = await axios.get(`/account/transaction/list/${authFlowId}/${accountId}/${from}/${to}/${bookSts}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/ais`, headers: this.customHeaders()});
-        if (response.data.success === false) utilities.handleError(response.data.message);
-        return response.data
+        try {
+            const response = await axios.get(`/account/transaction/list/${authFlowId}/${accountId}/${from}/${to}/${bookSts}`, this.customConfig('ais'));
+            return response.data;
+        } catch (e) {
+            return failed(e);
+        }
     },
 
     // Common SCA flow ping
     async commonScaPing(scaFlowId) {
-        const response = await axios.get(`/common/sca/ping/scaFlow/${scaFlowId}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/auth`, headers: this.customHeaders()});
-        return response.data
+        try {
+            const response = await axios.get(`/common/sca/ping/scaFlow/${scaFlowId}`, this.customConfig('auth'));
+            return response.data;
+        } catch (e) {
+            return failed(e);
+        }
     },
 
     // PIS - Payment initiation
-    async paymentInitiation(debtor, creditor, creditorAgent, value, paymentService, paymentProduct, from, to, bulk ,paymentDate) {
-        const response = await axios.post(`/payment/initiation`, {debtor, creditor, creditorAgent, value, paymentService, paymentProduct, from, to, bulk, paymentDate}, {baseURL: `${process.env.VUE_APP_TPP}/tpp/pis`, headers: this.customHeaders()});
-        if (response.data.success === false) utilities.handleError(response.data.message);
-        return response.data
+    async paymentInitiation(debtor, creditor, creditorAgent, value, paymentService, paymentProduct, from, to, bulk, paymentDate) {
+        try {
+            const response = await axios.post(`/payment/initiation`, {
+                debtor,
+                creditor,
+                creditorAgent,
+                value,
+                paymentService,
+                paymentProduct,
+                from,
+                to,
+                bulk,
+                paymentDate
+            }, this.customConfig('pis'));
+            return response.data;
+        } catch (e) {
+            return failed(e);
+        }
     },
 
     // PIS - Swap code for token
     async pisExchangeCodeForToken(flowId) {
-        const response = await axios.get(`/exchange/${flowId}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/pis`, headers: this.customHeaders()});
-        if (response.data.success === false) utilities.handleError(response.data.message);
-        return response.data
+        try {
+            const response = await axios.get(`/exchange/${flowId}`, this.customConfig('pis'));
+            return response.data
+        } catch (e) {
+            return failed(e);
+        }
     },
 
     // PIS - Get payments
     async getPayments(iban) {
-        const response = await axios.get(`/payments/${iban}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/pis`, headers: this.customHeaders()});
-        if (response.data.success === false) utilities.handleError(response.data.message);
-        return response.data
+        try {
+            const response = await axios.get(`/payments/${iban}`, this.customConfig('pis'));
+            return response.data;
+        } catch (e) {
+            return failed(e);
+        }
     },
 
     // PIS - Payment actions
     async paymentActions(paymentId, action) {
-        const response = await axios.get(`/payment/${paymentId}/${action}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/pis`, headers: this.customHeaders()});
-        if (response.data.success === false) utilities.handleError(response.data.message);
-        return response.data
+        try {
+            const response = await axios.get(`/payment/actions/${paymentId}/${action}`, this.customConfig('pis'));
+            return response.data;
+        } catch (e) {
+            return failed(e);
+        }
     },
 
     // PIS - Delete payment
     async deletePayment(paymentId) {
-        const response = await axios.delete(`/payment/${paymentId}`, {baseURL: `${process.env.VUE_APP_TPP}/tpp/pis`, headers: this.customHeaders()});
-        if (response.data.success === false) utilities.handleError(response.data.message);
-        return response.data
+        try {
+            const response = await axios.delete(`/payment/${paymentId}`, this.customConfig('pis'));
+            return response.data;
+        } catch (e) {
+            return failed(e);
+        }
     },
+
+    // Last n days payments count
+    async lastNDaysPaymentCount(n) {
+        try {
+            const response = await axios.get(`/payment/count/${n}`, this.customConfig('pis'));
+            return response.data;
+        } catch (e) {
+            return false
+        }
+    },
+
+    // Last n days payment values count
+    async lastNDaysPaymentValuesCount(n) {
+        try {
+            const response = await axios.get(`/payment/values/count/${n}`, this.customConfig('pis'));
+            return response.data;
+        } catch (e) {
+            return false
+        }
+    }
 
 }

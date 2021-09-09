@@ -37,7 +37,7 @@
             },
             apiVersion: {
                 get() {
-                    return this.$store.state.settings.apiV;
+                    return this.$store.state.settings.apiVersion;
                 },
                 set(value) {
                     this.$store.commit('CHANGE_API_V', value);
