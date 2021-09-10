@@ -209,7 +209,8 @@ export default {
             const response = await axios.get(`/payment/count/${n}`, this.customConfig('pis'));
             return response.data;
         } catch (e) {
-            return false
+            failed(e);
+            return [];
         }
     },
 
@@ -219,7 +220,8 @@ export default {
             const response = await axios.get(`/payment/values/count/${n}`, this.customConfig('pis'));
             return response.data;
         } catch (e) {
-            return false
+            failed(e);
+            return [];
         }
     }
 
