@@ -1,5 +1,5 @@
 <template>
-    <div id="settings" class="w-100">
+    <div id="settings" class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
         <div class="card">
             <div class="card-header" style="text-align: left">
                 Globalne nastavitve
@@ -61,6 +61,7 @@
         border: 1px solid #ced4da;
         height: 38px;
         border-radius: 5px;
+        width: 100px;
     }
 
 </style>

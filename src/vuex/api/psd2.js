@@ -223,6 +223,17 @@ export default {
             failed(e);
             return [];
         }
+    },
+
+    // Get error logs
+    async errorLogs() {
+        try {
+            const response = await axios.get(`/errors`, this.customConfig('auth'));
+            return response.data;
+        } catch (e) {
+            failed(e);
+            return [];
+        }
     }
 
 }

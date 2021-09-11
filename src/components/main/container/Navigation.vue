@@ -2,7 +2,7 @@
   <div id="navigation">
     <div id="navigation-logo">
       <img class="tpp-logo" :src="tppLogo"/>
-      Simulator TPP
+      <h5>TPP simulator</h5>
     </div>
     <ul>
       <router-link v-for="link in links" :key="link.name" :to="link.route">
@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       links: links,
-      tppLogo: require('/public/1989138.svg')
+      tppLogo: require('/public/bank.svg')
     }
   },
   methods: {
@@ -52,16 +52,25 @@ export default {
 <style scoped>
 
   #navigation-logo {
-    text-align: left;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
     background-color: rgba(44, 62, 80, 0.5);
     color: black;
   }
 
+  h5 {
+    margin-bottom: 0;
+    margin-left: 0.5rem;
+    font-family: 'Mukta', sans-serif !important;
+    font-weight: 600;
+    font-size: 18px;
+    text-transform: uppercase;
+  }
+
   .tpp-logo {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding: 4px;
-    height: 50px;
+
+    height: 45px;
   }
 
   .logout:hover {

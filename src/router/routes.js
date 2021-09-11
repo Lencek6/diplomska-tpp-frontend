@@ -5,6 +5,7 @@ import Dashboard from "@/components/views/Dashboard";
 import Ais from "@/components/views/Ais";
 import Pis from "@/components/views/Pis";
 import Settings from "@/components/views/Settings";
+import Logs from "../components/views/Logs";
 
 const routes = [
     {
@@ -51,6 +52,11 @@ const routes = [
                 path: '/settings',
                 component: Settings,
                 name: 'Nastavitve',
+            },
+            {
+                path: '/logs',
+                component: Logs,
+                name: 'Logi',
             }
         ]
     },

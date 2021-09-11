@@ -1,7 +1,13 @@
 <template>
     <div id="login">
         <div id="login-card">
-            <i class="float-start mb-2 login-text">Prijava uporabnika v sistem</i>
+            <div class="logo">
+                <img class="tpp-logo" :src="tppLogo"/>
+                <h4 class="mb-2 login-text">TPP SIMULATOR</h4>
+            </div>
+            <div class="border-top text-start mb-2">
+                <i>Prijava v sistem z domenskim uporabniškim imenom in geslom.</i>
+            </div>
             <div class="login-card-form">
                 <!-- Username -->
                 <b-input-group>
@@ -21,7 +27,7 @@
                     </template>
                     <b-form-input v-model="password" placeholder="Geslo"></b-form-input>
                 </b-input-group>
-                <b-button @click="login" class="mt-2 float-start">prijava</b-button>
+                <b-button @click="login" variant="custom-buttons" class="mt-3 float-start">prijava</b-button>
             </div>
         </div>
     </div>
@@ -35,7 +41,8 @@
         data() {
             return {
                 userName: null,
-                password: null
+                password: null,
+                tppLogo: require("/public/bank.svg"),
             }
         },
         methods: {
@@ -49,8 +56,25 @@
 
 <style scoped>
 
+    .logo {
+        display: flex;
+        align-items: center;
+        padding-bottom: 0.5rem;
+    }
+
+    .tpp-logo {
+        height: 45px;
+    }
+
     .login-text {
-        color: white;
+        padding-left: 0.5rem;
+        margin-bottom: 0 !important;
+        text-align: start;
+        color: black;
+        font-family: 'Mukta', sans-serif !important;
+        font-weight: 600;
+        font-size: 18px;
+        text-transform: uppercase;
     }
 
     #login {
@@ -65,8 +89,9 @@
 
     #login-card {
         width: 500px;
-        background-color: rgba(13, 110, 253, 0.8);
+        background-color: rgb(131, 174, 241);
         padding: 1rem;
+        border-radius: 5px;
     }
 
 </style>

@@ -18,5 +18,10 @@ export default [
         name: 'Nastavitve',
         route: '/settings',
         icon: 'tools'
+    },
+    {
+        name: 'Logi',
+        route: '/logs',
+        icon: 'newspaper'
     }
 ];

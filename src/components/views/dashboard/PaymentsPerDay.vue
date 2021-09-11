@@ -7,7 +7,7 @@
             <div class="card-body">
                 <div class="text-start">
                 <b>Število dni</b><br>
-                10 <b-input id="input" @change="generateChart" v-model="n" :min="min" :max="max" type="range" class="w-50"></b-input> 100
+                10 <b-input id="input" @change="reDrawChart" v-model="n" :min="min" :max="max" type="range" class="w-50"></b-input> 100
                 </div>
                 <line-chart class="mt-1" :chart-data="dataCollection" :options="chartOptions"></line-chart>
             </div>
@@ -36,31 +36,36 @@
             }
         },
         methods: {
-            // Generate chart data
-            async generateChart(){
-                let number = parseInt(this.n);
-                let result = await psd2_api.lastNDaysPaymentCount(number);
-                let labels = chartUtilities.lastNDays(number);
-                let data = new Array(number).fill(0);
-                for(let val of result) {
-                    let idx = labels.findIndex(el => el === val.createdOn)
-                    if(idx !== -1) data[idx] = val.count;
-                }
+            // ReDraw chart on
+            reDrawChart(){
+                let start =  this.max - parseInt(this.n);
                 this.dataCollection = {
-                    labels: labels,
+                    labels: this.labels.slice(start, this.max),
                     datasets: [{
                         label: 'Število plačil',
-                        data: data,
+                        data: this.data.slice(start, this.max),
                         fill: false,
                         borderColor: 'rgba(13, 110, 253, 0.59)',
                         pointBackgroundColor: "#ffffff",
                         tension: 0.1
                     }]
                 }
+            },
+            // Generate chart data
+            async generateChartData(){
+                let number = parseInt(this.n);
+                let result = await psd2_api.lastNDaysPaymentCount(number);
+                this.labels = chartUtilities.lastNDays(number);
+                this.data = new Array(number).fill(0);
+                for(let val of result) {
+                    let idx = this.labels.findIndex(el => el === val.createdOn)
+                    if(idx !== -1) this.data[idx] = val.count;
+                }
             }
         },
         async mounted() {
-            await this.generateChart();
+            await this.generateChartData();
+            this.reDrawChart()
         }
     }
 </script>
