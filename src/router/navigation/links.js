@@ -20,7 +20,7 @@ export default [
         icon: 'tools'
     },
     {
-        name: 'Logi',
+        name: 'Dnevnik napak',
         route: '/logs',
         icon: 'newspaper'
     }

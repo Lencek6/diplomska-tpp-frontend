@@ -3,7 +3,7 @@
     <div class="card" style="text-align: left">
       <div class="card-header">
         <i class="fa fa-info-circle"></i>
-        Payment initiation service
+        Storitev odreditve plačil
       </div>
       <div class="card-body">
         <b-row class="card-body-row-1">
@@ -11,11 +11,11 @@
           <b-col class="card-body-row-1-col-actions" sm="12" md="6">
             <!-- Payment initiation -->
             <div id="payment-init" class="mb-2">
-              <b>Debtor account</b>
+              <b>Račun plačnika</b>
               <b-input @change="getPayments" trim v-model="debtor" class="mb-2 col-xl-5"></b-input>
-              <b>Creditor account</b>
+              <b>Račun prejemnika</b>
               <b-input trim v-model="creditor" class="mb-2 col-xl-5"></b-input>
-              <b>Creditor agent</b><br>
+              <b>Agent prejemnika</b><br>
               <b-select :options="creditorAgentOptions" trim v-model="creditorAgentSelected"
                         class="mb-2 col-xl-5"></b-select>
               <br v-if="creditorAgentSelected !== null">
@@ -23,11 +23,11 @@
                        class="col-xl-5" v-model="creditorAgent"></b-input>
               <b>Znesek transakcije</b>
               <b-input trim v-model="value" type="number" class="mb-2 col-xl-5"></b-input>
-              <b>Payment product</b><br>
+              <b>Plačilni produkt</b><br>
               <b-select v-model="paymentProduct" class="mb-2 col-xl-5"
                         :options="['sepa-credit-transfers', 'instant-sepa-credit-transfers', 'target-2-payments', 'cross-border-credit-transfers']"></b-select>
               <br>
-              <b>Payment service</b><br>
+              <b>Plačilna storitev</b><br>
               <b-select v-model="paymentService" class="mb-2 col-xl-5"
                         :options="['payments', 'bulk-payments', 'periodic-payments']"></b-select>
               <br>
@@ -59,10 +59,10 @@
               <div v-if="paymentService === 'bulk-payments'">
                 <b>Dodatne transakcije</b>
                 <div class="d-inline-flex w-100 mb-2">
-                  <b-input v-model="bulkPaymentTmpCreditor" trim placeholder="Creditor account" style="margin-right: 1rem"></b-input>
+                  <b-input v-model="bulkPaymentTmpCreditor" trim placeholder="Račun prejemnika" style="margin-right: 1rem"></b-input>
                   <b-input v-model="bulkPaymentTmpCreditorAgent" trim style="margin-right: 1rem"
-                           placeholder="Creditor Agent"></b-input>
-                  <b-input v-model="bulkPaymentTmpValue" trim style="margin-right: 1rem" type="number" placeholder="znesek"></b-input>
+                           placeholder="Agent prejemnika"></b-input>
+                  <b-input v-model="bulkPaymentTmpValue" trim style="margin-right: 1rem" type="number" placeholder="Znesek"></b-input>
                   <b-button @click="addBulkPaymentTrx" variant="custom-buttons">+</b-button>
                 </div>
                 <div id="bulk-pymt-acc" class="mb-2">
@@ -72,7 +72,7 @@
                   </div>
                 </div>
               </div>
-              <b-button variant="custom-buttons" @click="paymentInitiation">Payment initiation</b-button>
+              <b-button variant="custom-buttons" @click="paymentInitiation">Izvedba plačila</b-button>
             </div>
             <!-- Payment status -->
             <div id="payment-status" class="border-top">
@@ -83,11 +83,11 @@
                 <template slot="noOptions"><i style="color: red">Za prikaz vrednosti vnesite debtor account z izvedenimi
                   plačili</i></template>
               </multiselect>
-              <b-button @click="paymentActions('details')" class="mt-2" style="margin-right: 1rem" variant="custom-buttons">Payment details
+              <b-button @click="paymentActions('details')" class="mt-2" style="margin-right: 1rem" variant="custom-buttons">Podatki o plačilu
               </b-button>
-              <b-button @click="paymentActions('status')" class="mt-2" style="margin-right: 1rem" variant="custom-buttons">Payment status</b-button>
-              <b-button @click="paymentActions('sca')" class="mt-2" style="margin-right: 1rem" variant="custom-buttons">SCA status</b-button>
-              <b-button @click="deletePayment" class="mt-2" variant="custom-buttons">Payment cancellation</b-button>
+              <b-button @click="paymentActions('status')" class="mt-2" style="margin-right: 1rem" variant="custom-buttons">Status plačila</b-button>
+              <b-button @click="paymentActions('sca')" class="mt-2" style="margin-right: 1rem" variant="custom-buttons">Status SCA</b-button>
+              <b-button @click="deletePayment" class="mt-2" variant="custom-buttons">Preklic plačila</b-button>
             </div>
           </b-col>
           <!-- Logger column -->

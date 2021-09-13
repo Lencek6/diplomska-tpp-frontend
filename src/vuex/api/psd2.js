@@ -2,6 +2,7 @@ import axios from 'axios'
 import utilities from "../../utils/utilities";
 import store from "../store";
 
+// Global error handler
 const failed = (e) => {
     utilities.handleError(e.response.data.message);
     return {success: false};
@@ -9,6 +10,7 @@ const failed = (e) => {
 
 export default {
 
+    // Custom config
     customConfig(service) {
         return {
             headers: {
@@ -21,7 +23,7 @@ export default {
         };
     },
 
-    // Auth
+    // Get authorization code
     async getCode(iban) {
         try {
             const response = await axios.get(`/code/${iban}`, this.customConfig('ais'));

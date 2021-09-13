@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-header" style="text-align: left">
                 <i class="fa fa-user"></i>
-                Account information service
+                Storitev zagotavljanja informacij o računih
             </div>
             <div class="card-body">
                 <b-row class="card-body-row-1">
@@ -16,7 +16,7 @@
                         </div>
                         <!-- Get consent -->
                         <div class="border-bottom">
-                            <b-button variant="custom-buttons" class="mb-2" @click="getConsent">Kreiraj novo soglasje</b-button>
+                            <b-button variant="custom-buttons" class="mb-2" @click="getConsent">Ustvari novo soglasje</b-button>
                         </div>
                         <!-- Consent status or consent removal -->
                         <multiselect v-model="selectedConsent" :options="consentOptions" :searchable="true"
@@ -33,7 +33,7 @@
                             <br>
                         </div>
                         <!-- Get account list -->
-                        <b-button variant="custom-buttons" class="mt-1 mb-2" @click="getAccList">Read account list</b-button>
+                        <b-button variant="custom-buttons" class="mt-1 mb-2" @click="getAccList">Pridobi seznam računov</b-button>
                         <div class="border-top">
                             <multiselect v-model="selectedAcc" :options="accList" :searchable="true"
                                          selectLabel="Izberi račun" deselectLabel="Odstrani izbiro"
@@ -46,25 +46,25 @@
                                 <template slot="noResult"><i style="color: red">Ni zadetka za iskani niz!</i></template>
                             </multiselect>
                             <!-- Get account information -->
-                            <b-button variant="custom-buttons" class="mt-3" @click="getAccInformation">Read account details
+                            <b-button variant="custom-buttons" class="mt-3" @click="getAccInformation">Pridobi podatke o računu
                             </b-button>
                         </div>
                         <div class="mt-3 border-bottom">
-                            <b-button class="mb-2" variant="custom-buttons" @click="getAccBalances">Read balance</b-button>
+                            <b-button class="mb-2" variant="custom-buttons" @click="getAccBalances">Pridobi stanje računa</b-button>
                         </div>
                         <!-- Transaction list -->
                         <div class="mt-3">
-                            <b-button variant="custom-buttons" @click="getTransactionList" class="mb-3">Read transaction list</b-button>
+                            <b-button variant="custom-buttons" @click="getTransactionList" class="mb-3">Pridobi seznam transakcij</b-button>
                             <br>
                             <!-- Date from -->
-                            Transakcije od:
+                            <b>Transakcije od:</b>
                             <date-pick :format="format" id="dtp-from" class="mb-2" v-model="dateFrom"
                                        :weekdays="weekdays"
                                        :months="months" nextMonthCaption="Naprej" prevMonthCaption="Nazaj"
                                        setTimeCaption="Nastavi čas" :inputAttributes="{readonly: true}"></date-pick>
                             <br>
                             <!-- Date to -->
-                            Transakcije do:
+                           <b>Transakcije do:</b>
                             <date-pick :format="format" id="dtp-to" class="mb-2" v-model="dateTo"
                                        :weekdays="weekdays"
                                        :months="months" nextMonthCaption="Naprej" prevMonthCaption="Nazaj"
